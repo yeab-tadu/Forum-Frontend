@@ -5,7 +5,6 @@ import axios from "axios";
 import AnswerQuestion from "../../Components/AnswerQuestion/AnswerQuestion";
 import Answer from "../../Components/Answer/Answer";
 
-
 const SingleQuestion = () => {
   let params = useParams();
   const [question, setQuestion] = useState();
@@ -14,7 +13,7 @@ const SingleQuestion = () => {
   const questionByPostId = async () => {
     try {
       const question = await axios.get(
-        `http://localhost:4000/api/questions/${params.id}`
+        `${process.env.REACT_APP_base_url}/api/questions/${params.id}`
       );
       setQuestion(question.data.data);
     } catch (err) {
@@ -22,11 +21,10 @@ const SingleQuestion = () => {
     }
   };
 
-
   const answersByQuestionId = async () => {
     try {
       const answersRes = await axios.get(
-        `http://localhost:4000/api/answer/${question?.question_id}`
+        `${process.env.REACT_APP_base_url}/api/answer/${question?.question_id}`
       );
       setAnswers(answersRes.data.data);
     } catch (err) {
@@ -34,12 +32,10 @@ const SingleQuestion = () => {
     }
   };
 
-
   useEffect(() => {
     questionByPostId();
     answersByQuestionId();
   }, [question?.question_id]);
-
 
   return (
     <div className="container my-5">
